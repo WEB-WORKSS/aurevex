@@ -28,7 +28,7 @@ export function generateAnswers() {
     { n: 9, q: "What are you building?", key: "q9", a: [Q9_TEXT], text: true, why: "Names the company, category, customer, benefit and technology; states AWS as being built, not deployed.", status: "Recommended" },
     { n: 10, q: "Planned product launch date", key: "q10", a: [b.launchDate.value], text: true, why: "No launch has happened. Proposed date about 3–4 months out.", status: v(b.launchDate) },
     { n: 11, q: "Most recent funding round", key: "q11", a: [b.funding.value], why: "No funding has been reported. Leave funding date fields blank.", status: v(b.funding) },
-    { n: 12, q: "Latest valuation", key: "q12", a: [b.valuation.value], why: "No priced round reported.", status: v(b.valuation) },
+    { n: 12, q: "Latest valuation", key: "q12", a: [b.valuation.value], why: "Valuation confirmed by the founder.", status: v(b.valuation) },
     { n: 13, q: "Percentage of spend on AWS", key: "q13", a: [b.awsSpend.value], why: "The production architecture is entirely AWS; current hosting/auth tools are minor. Choose \"I'm not sure\" if you can't defend this.", status: v(b.awsSpend) },
     { n: 14, q: "Annual marketing spend", key: "q14", a: [b.marketingSpend.value], why: "Early-stage, founder-led outreach. Confirm the actual budget.", status: v(b.marketingSpend) },
   ];

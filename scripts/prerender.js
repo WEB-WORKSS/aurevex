@@ -10,7 +10,7 @@ for (const r of routes) {
     .replace(/<title>.*?<\/title>/, `<title>${esc(p.title)}</title>`).replace(/<meta name="description" content=".*?" \/>/, `<meta name="description" content="${esc(p.desc)}" />`);
   const head = [`<meta property="og:type" content="website" />`, `<meta property="og:site_name" content="Aurevex" />`, `<meta property="og:title" content="${esc(p.title)}" />`, `<meta property="og:description" content="${esc(p.desc)}" />`, `<meta name="twitter:card" content="summary_large_image" />`, `<meta name="twitter:title" content="${esc(p.title)}" />`, `<meta name="twitter:description" content="${esc(p.desc)}" />`];
   if (SITE) head.push(`<link rel="canonical" href="${SITE}${r}" />`, `<meta property="og:url" content="${SITE}${r}" />`, `<meta property="og:image" content="${SITE}/assets/linkedin-banner.svg" />`);
-  if (r === "/") head.push(`<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: "Aurevex", description: p.desc, ...(SITE && { url: SITE, logo: SITE + "/assets/logo.svg" }), founder: { "@type": "Person", name: "Akanbi Zulu", jobTitle: "Founder" } })}</script>`);
+  if (r === "/") head.push(`<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: "Aurevex", description: p.desc, ...(SITE && { url: SITE, logo: SITE + "/assets/logo.svg" }), founder: { "@type": "Person", name: "Akanbi Zulu", jobTitle: "Founder & CEO" } })}</script>`);
   html = html.replace("<!--seo-->", head.join("\n"));
   const out = r === "/" ? path.join(dist, "index.html") : path.join(dist, r.slice(1), "index.html");
   fs.mkdirSync(path.dirname(out), { recursive: true }); fs.writeFileSync(out, html);
