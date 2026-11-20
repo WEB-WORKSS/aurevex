@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle2 } from "lucide-react";
 import { Logo, Field, Spinner } from "../components/ui/index.jsx";
@@ -11,6 +11,7 @@ export default function Onboarding() {
   const { user } = useAuth(); const store = useMemo(() => createStore(user), [user]); const nav = useNavigate();
   const [step, setStep] = useState(1); const [busy, setBusy] = useState(false); const [msg, setMsg] = useState(""); const [err, setErr] = useState({});
   const [f, setF] = useState({ name: "", organization: "", industry: "", size: "", use_case: "", jurisdictions: "", source_count: "", priority: "" });
+  useEffect(() => { store.getWorkspace().then((w) => w?.onboarded && nav("/dashboard", { replace: true })).catch(() => {}); }, [store]);
   const on = (k) => (e) => setF({ ...f, [k]: e.target.value });
   function next(e) { e.preventDefault(); const er = {}; ["name", "organization", "industry", "size", "use_case"].forEach((k) => !f[k] && (er[k] = "Required")); setErr(er); if (!Object.keys(er).length) setStep(2); }
   async function finish(e) { e.preventDefault(); setBusy(true); setMsg(""); try { await store.saveWorkspace({ ...f, onboarded: true }); await store.log(`Workspace "${f.name}" created`); setStep(3); } catch (x) { setMsg(x.message || "Couldn't save your workspace."); } setBusy(false); }

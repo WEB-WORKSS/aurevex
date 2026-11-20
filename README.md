@@ -17,9 +17,9 @@ npm run build          # outputs dist/, prerenders public pages
 |---|---|
 | `/` | Marketing site (prerendered to static HTML for SEO) |
 | `/login` `/signup` `/forgot-password` `/reset-password` | Supabase auth flows |
-| `/onboarding` | 3-step workspace setup, saved to `workspaces` |
+| `/onboarding` | 3-step workspace setup (new accounts only; sign-in always lands on `/dashboard`), saved to `workspaces` |
 | `/dashboard` | Obligation register (CRUD, search, filter, sort, CSV, print/PDF), sources, deadlines, gaps, activity, settings |
-| `/app` | Private application center: LinkedIn kit, all 14 AWS Activate answers, architecture, readiness checklist, exports. Not linked anywhere; `noindex`. |
+| `/app` | Public company & AWS Activate page: LinkedIn kit, all 14 AWS Activate answers, architecture, readiness checklist, exports. |
 | `/privacy` `/terms` | Legal pages |
 
 ## Single source of truth
@@ -29,8 +29,8 @@ npm run build          # outputs dist/, prerenders public pages
 - **With Supabase configured:** real accounts, email confirmation, password reset, and per-user data protected by row-level security (`supabase/schema.sql`). The contact form inserts into `leads`.
 - **Without Supabase:** auth pages say accounts aren't connected and offer a **local demo workspace** stored in browser localStorage only, labelled "Local demo". This is not authentication. The contact form shows an error instead of a fake success.
 
-## Private application center (`/app`)
-In `npm run dev` it opens without sign-in. In production it needs a Supabase session where `is_admin()` returns true (see `admins` in the schema). Its content is part of the JS bundle, so anyone who reads the bundle can see it. It holds no secrets, but if the answers must stay confidential, serve them from the backend instead.
+## Company & AWS info (`/app`)
+Public page, linked from the footer. It shows company details, the LinkedIn kit, the AWS Activate answers, the architecture and a readiness checklist. Don't put anything private in `business.js`: everything in it is public.
 
 ## Status: what's real
 - Implemented: site, auth integration (untested against a live Supabase project), onboarding, dashboard CRUD and exports, /app tools.

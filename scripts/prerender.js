@@ -3,7 +3,7 @@ import fs from "node:fs"; import path from "node:path"; import { pathToFileURL }
 const dist = path.resolve("dist"); const tpl = fs.readFileSync(path.join(dist, "index.html"), "utf8");
 const { render, PAGES } = await import(pathToFileURL(path.resolve("dist-ssr/entry-server.js")).href);
 const SITE = (process.env.VITE_SITE_URL || "").replace(/\/$/, "");
-const routes = ["/", "/privacy", "/terms", "/login", "/signup", "/forgot-password"];
+const routes = ["/", "/app", "/privacy", "/terms", "/login", "/signup", "/forgot-password"];
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 for (const r of routes) {
   const p = PAGES[r]; let html = tpl.replace("<!--app-->", render(r)).replace('<div id="root">', `<div id="root" data-prerendered="${r}">`)
@@ -17,7 +17,7 @@ for (const r of routes) {
 }
 // SPA fallback for private routes: unrendered shell, noindex
 fs.writeFileSync(path.join(dist, "200.html"), tpl.replace("<!--seo-->", '<meta name="robots" content="noindex" />').replace("<!--app-->", ""));
-if (SITE) fs.writeFileSync(path.join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${["/", "/privacy", "/terms"].map((r) => `  <url><loc>${SITE}${r}</loc></url>`).join("\n")}\n</urlset>\n`);
+if (SITE) fs.writeFileSync(path.join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${["/", "/app", "/privacy", "/terms"].map((r) => `  <url><loc>${SITE}${r}</loc></url>`).join("\n")}\n</urlset>\n`);
 else console.warn("VITE_SITE_URL not set: sitemap.xml and canonical URLs skipped.");
 fs.rmSync("dist-ssr", { recursive: true, force: true });
 console.log("Prerendered", routes.length, "routes");

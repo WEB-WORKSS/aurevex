@@ -33,7 +33,7 @@ function NotConfigured() {
     <div className="rounded-xl border border-amber/30 bg-amber-soft p-4 text-sm text-ink">
       <p className="flex gap-2 font-semibold"><Info className="h-4 w-4 shrink-0 text-amber" />Accounts aren't connected in this build.</p>
       <p className="mt-1 text-muted">Account sign-in needs the Supabase settings in <code>.env</code>. You can still open a local demo workspace stored only in this browser.</p>
-      <button type="button" className="btn-primary mt-3 w-full" onClick={() => { startDemo(); nav("/onboarding"); }}>Open local demo workspace</button>
+      <button type="button" className="btn-primary mt-3 w-full" onClick={() => { startDemo(); nav("/dashboard"); }}>Open local demo workspace</button>
     </div>
   );
 }
@@ -86,7 +86,7 @@ const SL = ["Too weak", "Weak", "Fair", "Good", "Strong"];
 export function Signup() {
   const nav = useNavigate(); const [q] = useSearchParams(); const { user } = useAuth();
   const [f, setF] = useState({ name: "", email: "", password: "", confirm: "", terms: false }); const [err, setErr] = useState({}); const [busy, setBusy] = useState(false); const [msg, setMsg] = useState(""); const [sent, setSent] = useState(false);
-  useEffect(() => { if (user) nav("/onboarding"); }, [user]);
+  useEffect(() => { if (user) nav("/dashboard"); }, [user]);
   const s = strength(f.password);
   async function submit(e) {
     e.preventDefault(); const er = {};
@@ -97,7 +97,7 @@ export function Signup() {
     setBusy(true); setMsg("");
     const { data, error } = await supabase.auth.signUp({ email: f.email, password: f.password, options: { data: { full_name: f.name, plan_interest: q.get("plan") || "" }, emailRedirectTo: location.origin + "/onboarding" } });
     setBusy(false); if (error) return setMsg(friendly(error.message));
-    if (data.session) nav("/onboarding"); else setSent(true);
+    if (data.session) nav("/dashboard"); else setSent(true);
   }
   if (sent) return <Shell path="/signup" title="Check your email" sub={`We sent a confirmation link to ${f.email}. Open it to finish creating your account.`}><Link to="/login" className="btn-ghost w-full">Back to Sign In</Link></Shell>;
   return (

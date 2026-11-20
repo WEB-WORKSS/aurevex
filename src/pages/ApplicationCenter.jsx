@@ -1,32 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
-import { Copy, Download, Printer, RefreshCw, AlertTriangle, CheckCircle2, Lock } from "lucide-react";
-import { Logo, Spinner, useToast } from "../components/ui/index.jsx";
+import { Copy, Download, Printer, RefreshCw, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { Logo, useToast } from "../components/ui/index.jsx";
 import { Seo } from "../components/layout/Seo.jsx";
 import { business, aws, stages, features, missingFacts, SITE_URL } from "../data/business.js";
 import { generateAnswers, answersAsText } from "../data/aws-answers.js";
-import { supabase } from "../lib/supabase.js";
-import { useAuth } from "../lib/auth.jsx";
 import { copy, downloadFile, cx } from "../lib/utils.js";
-import { Link } from "react-router-dom";
-
-// Access: production requires a Supabase session AND is_admin() = true (SQL function over the `admins` table).
-// Local `npm run dev` is allowed so the founder can preview. See README "Private application center".
-function useAdmin() {
-  const { user, ready } = useAuth(); const [s, setS] = useState("checking");
-  useEffect(() => {
-    if (!ready) return;
-    if (import.meta.env.DEV) return setS("ok");
-    if (!supabase || !user || user.demo) return setS("denied");
-    supabase.rpc("is_admin").then(({ data, error }) => setS(!error && data === true ? "ok" : "denied"));
-  }, [user, ready]);
-  return s;
-}
 
 const CHECKS = ["Website publicly accessible", "Business domain configured", "Business email verified", "Founder identity consistent", "LinkedIn company page created", "Product stage accurate", "AWS account information consistent", "AWS services accurately described", "Application answers reviewed", "Required supporting documents available"];
 const SECTIONS = [["overview", "Business Overview"], ["brand", "Brand Assets"], ["linkedin", "LinkedIn Profile Kit"], ["activate", "AWS Activate Application"], ["arch", "AWS Architecture"], ["team", "Founder & Team"], ["info", "Business Information"], ["checklist", "Readiness Checklist"], ["downloads", "Downloads & Exports"]];
 
 export default function ApplicationCenter() {
-  const access = useAdmin(); const toast = useToast();
+  const toast = useToast();
   const [answers, setAnswers] = useState(() => generateAnswers());
   const [checks, setChecks] = useState(() => { try { return JSON.parse(localStorage.getItem("aurevex.checklist")) || {}; } catch { return {}; } });
   useEffect(() => { localStorage.setItem("aurevex.checklist", JSON.stringify(checks)); }, [checks]);
@@ -34,8 +18,6 @@ export default function ApplicationCenter() {
   const cp = async (t, l = "Copied") => { try { await copy(t); toast(l); } catch { toast("Clipboard blocked by the browser", "err"); } };
   const CopyBtn = ({ t, label = "Copy" }) => <button onClick={() => cp(t)} className="btn-ghost px-2.5 py-1.5 text-xs no-print"><Copy className="h-3.5 w-3.5" />{label}</button>;
 
-  if (access === "checking") return <div className="grid min-h-screen place-items-center"><Spinner className="h-6 w-6" /></div>;
-  if (access === "denied") return <div className="grid min-h-screen place-items-center p-6 text-center"><Seo path="/app" title="Restricted | Aurevex" noindex /><div><Lock className="mx-auto h-10 w-10 text-muted" /><h1 className="mt-4 text-2xl">Restricted</h1><p className="mt-2 text-sm text-muted">This area is for authorised administrators.</p><Link to="/login" className="btn-primary mt-6">Sign in</Link></div></div>;
 
   const li = business; const overview = linkedinOverview();
   const H = ({ id, children }) => <h2 id={id} className="scroll-mt-6 border-b border-line-2 pb-3 pt-12 text-2xl">{children}</h2>;
@@ -43,8 +25,8 @@ export default function ApplicationCenter() {
   const fact = (f) => f.value ? `${f.value}${f.verified ? "" : " (unconfirmed)"}` : "";
 
   return (
-    <div className="min-h-screen lg:grid lg:grid-cols-[250px_1fr]"><Seo path="/app" title="Application Center | Aurevex" noindex />
-      <aside className="no-print hidden bg-ink p-5 text-paper/70 lg:block"><div className="sticky top-5"><Logo dark /><p className="mt-2 text-xs">Private application center</p><nav className="mt-8 space-y-1 text-sm">{SECTIONS.map(([id, l]) => <a key={id} href={`#${id}`} className="block rounded px-3 py-1.5 hover:bg-white/5">{l}</a>)}</nav></div></aside>
+    <div className="min-h-screen lg:grid lg:grid-cols-[250px_1fr]"><Seo path="/app" title="Company & AWS Activate information | Aurevex" desc="Aurevex company details, AWS architecture and AWS Activate application information." />
+      <aside className="no-print hidden bg-ink p-5 text-paper/70 lg:block"><div className="sticky top-5"><Logo dark /><p className="mt-2 text-xs">Company &amp; AWS Activate information</p><nav className="mt-8 space-y-1 text-sm">{SECTIONS.map(([id, l]) => <a key={id} href={`#${id}`} className="block rounded px-3 py-1.5 hover:bg-white/5">{l}</a>)}</nav></div></aside>
       <main className="mx-auto w-full max-w-4xl px-5 pb-24 md:px-10">
         <H id="overview">Business Overview</H>
         {missing.length > 0 && <div className="mt-5 rounded-xl border border-amber/40 bg-amber-soft p-4 text-sm"><p className="flex items-center gap-2 font-semibold text-ink"><AlertTriangle className="h-4 w-4 text-amber" />{missing.length} facts need confirmation before you submit anything</p><ul className="mt-2 space-y-1 text-muted">{missing.map((m) => <li key={m.key}><code className="text-ink">{m.key}</code>: {m.note}{m.value && ` (current: ${m.value})`}</li>)}</ul><p className="mt-2 text-xs text-muted">Edit <code>src/data/business.js</code> and set <code>verified: true</code> once confirmed.</p></div>}

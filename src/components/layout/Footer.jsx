@@ -11,6 +11,7 @@ export function Footer() {
           {[["Product", "/#product"], ["Solutions", "/#solutions"], ["Technology", "/#technology"], ["Pricing", "/#pricing"], ["Team", "/#team"], ["Contact", "/#contact"]].map(([l, h]) => <a key={l} href={h} className="hover:text-paper">{l}</a>)}
         </nav>
         <div className="space-y-2 text-sm">
+          <Link to="/app" className="block hover:text-paper">Company &amp; AWS info</Link>
           <Link to="/privacy" className="block hover:text-paper">Privacy Policy</Link>
           <Link to="/terms" className="block hover:text-paper">Terms of Service</Link>
           {li.verified && li.value && <a href={li.value} className="block hover:text-paper" rel="noopener">LinkedIn</a>}
