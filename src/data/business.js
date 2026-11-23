@@ -35,9 +35,9 @@ export const business = {
 
   founders: [
     {
-      name: "Akanbi Zulu",
+      name: "Zulu Akanbi",
       title: "Founder & CEO",
-      bio: "Akanbi founded Aurevex to give compliance teams a traceable, task-based view of the regulations they answer to, and leads product and engineering.",
+      bio: "Zulu founded Aurevex to give compliance teams a traceable, task-based view of the regulations they answer to, and leads product and engineering.",
       linkedin: { value: "", verified: false, note: "Founder LinkedIn profile URL" },
       photo: "",
     },
