@@ -7,5 +7,4 @@
 - [ ] Sign up, confirm email, onboard, create/edit/delete an obligation, sign out, reset password: test against the real backend
 - [ ] Submit the contact form and check the row in `leads`
 - [ ] Legal review of `/privacy` and `/terms` (jurisdiction, governing law, entity name are unresolved)
-- [ ] Create the LinkedIn page; then set `linkedinCompany` and verify it
 - [ ] Re-check the AWS Activate option lists against the live form

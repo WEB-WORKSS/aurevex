@@ -41,9 +41,9 @@ export default function ApplicationCenter() {
 
         <H id="linkedin">LinkedIn Profile Kit</H>
         <Row k="Company name" v={li.name} /><Row k="Website" v={SITE_URL || fact(li.domain)} /><Row k="Industry" v={li.linkedinIndustry} /><Row k="Company type" v={li.companyType} /><Row k="Company size" v={fact(li.teamSize)} /><Row k="Founded" v={fact(li.foundedYear)} /><Row k="Headquarters" v={fact(li.headquarters)} />
-        <Row k="Suggested public URL (unconfirmed: availability is only certain when LinkedIn accepts it at page creation)" v={`linkedin.com/company/${li.suggestedLinkedinSlug}`} />
+        <Row k="LinkedIn company page" v={li.linkedinCompany.value} />
         <Row k={`Tagline (${li.linkedinTagline.length}/120)`} v={li.linkedinTagline} /><Row k={`Overview (${overview.length}/2,000)`} v={overview} /><Row k={`Specialties (${li.specialties.length})`} v={li.specialties.join(", ")} />
-        <p className="mt-3 text-xs text-muted">Slug alternatives if taken: aurevex-ai, aurevexhq, aurevex-compliance. Check each manually at linkedin.com/company/&lt;slug&gt;.</p>
+        
 
         <H id="activate">AWS Activate Application</H>
         <div className="no-print mt-5 flex flex-wrap gap-2"><button className="btn-primary" onClick={() => cp(answersAsText(), "All answers copied")}><Copy className="h-4 w-4" />Copy All Answers</button><button className="btn-ghost" onClick={() => downloadFile("aurevex-aws-activate-answers.txt", answersAsText())}><Download className="h-4 w-4" />Download Answers</button><button className="btn-ghost" onClick={() => window.print()}><Printer className="h-4 w-4" />Print Summary</button><button className="btn-ghost" onClick={() => { setAnswers(generateAnswers()); toast("Answers regenerated from business record"); }}><RefreshCw className="h-4 w-4" />Regenerate Answers</button><a href="#overview" className="btn-ghost"><AlertTriangle className="h-4 w-4" />Review Missing Information</a></div>
@@ -77,7 +77,7 @@ export default function ApplicationCenter() {
         <H id="downloads">Downloads & Exports</H>
         <div className="mt-5 flex flex-wrap gap-2">
           <button className="btn-ghost" onClick={() => downloadFile("aurevex-aws-activate-answers.txt", answersAsText())}><Download className="h-4 w-4" />AWS Activate answers (.txt)</button>
-          <button className="btn-ghost" onClick={() => downloadFile("aurevex-linkedin-kit.txt", `Name: ${li.name}\nIndustry: ${li.linkedinIndustry}\nType: ${li.companyType}\nSize: ${fact(li.teamSize)}\nFounded: ${fact(li.foundedYear)}\nSuggested URL (unconfirmed): linkedin.com/company/${li.suggestedLinkedinSlug}\n\nTagline:\n${li.linkedinTagline}\n\nOverview:\n${overview}\n\nSpecialties:\n${li.specialties.join(", ")}\n`)}><Download className="h-4 w-4" />LinkedIn kit (.txt)</button>
+          <button className="btn-ghost" onClick={() => downloadFile("aurevex-linkedin-kit.txt", `Name: ${li.name}\nIndustry: ${li.linkedinIndustry}\nType: ${li.companyType}\nSize: ${fact(li.teamSize)}\nFounded: ${fact(li.foundedYear)}\nLinkedIn page: ${li.linkedinCompany.value}\n\nTagline:\n${li.linkedinTagline}\n\nOverview:\n${overview}\n\nSpecialties:\n${li.specialties.join(", ")}\n`)}><Download className="h-4 w-4" />LinkedIn kit (.txt)</button>
           <button className="btn-ghost" onClick={() => downloadFile("aurevex-business-record.json", JSON.stringify({ business, aws, features }, null, 2), "application/json")}><Download className="h-4 w-4" />Business record (.json)</button>
           <button className="btn-ghost" onClick={() => window.print()}><Printer className="h-4 w-4" />Print everything</button>
         </div>
