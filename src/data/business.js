@@ -1,5 +1,5 @@
 // Canonical business record. Every page, the LinkedIn kit, SEO and the AWS Activate answers read from here.
-// `verified: false` values are assumptions or gaps and are listed in the /app readiness view. Never show them as fact.
+// `verified: false` values are assumptions or gaps and are tracked in docs/. Never show them as fact.
 
 export const SITE_URL = (import.meta.env?.VITE_SITE_URL || "").replace(/\/$/, "");
 

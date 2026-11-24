@@ -5,7 +5,6 @@ export const PAGES = {
   "/login": { title: "Sign in | Aurevex", desc: "Sign in to your Aurevex workspace." },
   "/signup": { title: "Create account | Aurevex", desc: "Create an Aurevex account and set up your compliance workspace." },
   "/forgot-password": { title: "Reset password | Aurevex", desc: "Recover access to your Aurevex account." },
-  "/app": { title: "Company & AWS Activate information | Aurevex", desc: "Aurevex company details, AWS architecture and AWS Activate application information." },
   "/privacy": { title: "Privacy Policy | Aurevex", desc: "How Aurevex collects, uses and stores information." },
   "/terms": { title: "Terms of Service | Aurevex", desc: "Terms governing use of the Aurevex website and software." },
 };
